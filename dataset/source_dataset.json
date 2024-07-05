@@ -1,0 +1,40 @@
+{
+	"name": "source_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage004",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"source_container": {
+				"type": "string"
+			},
+			"source_directory": {
+				"type": "string"
+			},
+			"source_filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().source_filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().source_directory",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().source_container",
+					"type": "Expression"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

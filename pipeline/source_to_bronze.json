@@ -1,0 +1,104 @@
+{
+	"name": "source_to_bronze",
+	"properties": {
+		"activities": [
+			{
+				"name": "source_to_bronze",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "source_dataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"source_container": {
+								"value": "@pipeline().parameters.source_container",
+								"type": "Expression"
+							},
+							"source_directory": {
+								"value": "@pipeline().parameters.source_directory",
+								"type": "Expression"
+							},
+							"source_filename": {
+								"value": "@pipeline().parameters.source_filename",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "sink_dataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"sink_container": {
+								"value": "@pipeline().parameters.sink_container",
+								"type": "Expression"
+							},
+							"sink_directory": {
+								"value": "@concat('bronze','/',formatDateTime(utcnow(), 'yyyy-MM-dd'),'/',pipeline().parameters.sink_filename)",
+								"type": "Expression"
+							},
+							"sink_filename": {
+								"value": "@pipeline().parameters.sink_filename",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"source_container": {
+				"type": "string",
+				"defaultValue": "source"
+			},
+			"source_directory": {
+				"type": "string"
+			},
+			"source_filename": {
+				"type": "string"
+			},
+			"sink_container": {
+				"type": "string",
+				"defaultValue": "bronze"
+			},
+			"sink_directory": {
+				"type": "string"
+			},
+			"sink_filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-07-05T12:57:10Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

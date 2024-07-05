@@ -1,0 +1,9 @@
+{
+	"name": "sreekanthdataflatteningadf",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6f3bde4a-471a-4983-b622-76cf6f6074ed",
+		"tenantId": "d4963ce2-af94-4122-95a9-644e8b01624d"
+	}
+}
